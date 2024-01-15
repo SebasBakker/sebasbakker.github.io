@@ -3,6 +3,8 @@
 * See LICENSE in the project root for license information.
 */
 
+// Add start-up logic code here, if any.
+Office.onReady();
 
 
 // ==========================
@@ -79,15 +81,16 @@ function _invoke(callback) {
 Office.initialize = function () {
     // BUG: initialize is too late for Desktop. just do it inside the bindAction
     //eformity.hostinfo.initialize();
-    
 };
-/*
-* Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
-* See LICENSE in the project root for license information.
-*/
 
-// Add start-up logic code here, if any.
-Office.onReady();
+// bind an event on message compose, which will insert the users default signature
+_bindAction('onMessageComposeHandler', function (eventObj) {
+    eformity.hostinfo.initialize();
+
+    eformity.office.outlook.insertDefaultSignature(function (result) {
+        result.completed();
+    }, eventObj);
+});
 
 function onNewMessageComposeHandler(event) {
   const item = Office.context.mailbox.item;
