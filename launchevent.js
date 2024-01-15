@@ -85,9 +85,14 @@ Office.initialize = function () {
 // bind an event on message compose, which will insert the users default signature
 _bindAction('onMessageComposeHandler', function (eventObj) {
     eformity.hostinfo.initialize();
-    eformity.office.outlook.insertDefaultSignature(function (result) {
-        result.completed();
-    }, eventObj);
+      // Add the created signature to the message.
+      const signature = "testestestesteste";
+      item.body.setSignatureAsync(signature, { coercionType: Office.CoercionType.Html }, (result) => {
+        if (result.status === Office.AsyncResultStatus.Failed) {
+          console.log(result.error.message);
+          event.completed();
+          return;
+        }
 });
 
 function onNewMessageComposeHandler(event) {
