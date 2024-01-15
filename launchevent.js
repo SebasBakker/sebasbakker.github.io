@@ -81,7 +81,7 @@ Office.initialize = function () {
     //eformity.hostinfo.initialize();
     
 };
-
+Office.onReady();
 // bind an event on message compose, which will insert the users default signature
 _bindAction('onMessageComposeHandler', function (eventObj) {
     eformity.hostinfo.initialize();
