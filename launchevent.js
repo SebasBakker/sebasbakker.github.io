@@ -92,9 +92,32 @@ _bindAction('onMessageComposeHandler', function (eventObj) {
 });
 
 function onNewMessageComposeHandler(event) {
-    eformity.office.outlook.insertDefaultSignature(function (result) {
-        result.completed();
-    }, eventObj);
+      // Add the created signature to the message.
+      const signature = "testestestesteste";
+      item.body.setSignatureAsync(signature, { coercionType: Office.CoercionType.Html }, (result) => {
+        if (result.status === Office.AsyncResultStatus.Failed) {
+          console.log(result.error.message);
+          event.completed();
+          return;
+        }
+
+        // Show a notification when the signature is added to the message.
+        // Important: Only the InformationalMessage type is supported in Outlook mobile at this time.
+        const notification = {
+          type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
+          message: "Company signature added.",
+          icon: "none",
+          persistent: false
+        };
+        item.notificationMessages.addAsync("signature_notification", notification, (result) => {
+          if (result.status === Office.AsyncResultStatus.Failed) {
+            console.log(result.error.message);
+            event.completed();
+            return;
+          }
+          event.completed();
+        });
+    });
 }
 
 
