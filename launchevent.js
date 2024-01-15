@@ -3,8 +3,6 @@
 * See LICENSE in the project root for license information.
 */
 
-// Add start-up logic code here, if any.
-Office.onReady();
 
 
 // ==========================
@@ -81,10 +79,12 @@ function _invoke(callback) {
 Office.initialize = function () {
     // BUG: initialize is too late for Desktop. just do it inside the bindAction
     //eformity.hostinfo.initialize();
+    
 };
 
 // bind an event on message compose, which will insert the users default signature
 _bindAction('onMessageComposeHandler', function (eventObj) {
+    Office.onReady();
     eformity.hostinfo.initialize();
 
     eformity.office.outlook.insertDefaultSignature(function (result) {
