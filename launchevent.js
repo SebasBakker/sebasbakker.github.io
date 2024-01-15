@@ -111,7 +111,7 @@ _bindAction('onMessageComposeHandler', function (eventObj) {
 
           event.completed();
         });
-      })
+      });
 });
 
 function onNewMessageComposeHandler(event) {
