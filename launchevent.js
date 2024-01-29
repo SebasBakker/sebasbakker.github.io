@@ -1,10 +1,3 @@
-/*
-* Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
-* See LICENSE in the project root for license information.
-*/
-
-
-
 // ==========================
 //   Event Based Activation
 // ==========================
@@ -79,27 +72,22 @@ function _invoke(callback) {
 Office.initialize = function () {
     // BUG: initialize is too late for Desktop. just do it inside the bindAction
     //eformity.hostinfo.initialize();
-    
 };
 
 // bind an event on message compose, which will insert the users default signature
 _bindAction('onMessageComposeHandler', function (eventObj) {
     eformity.hostinfo.initialize();
-      // Add the created signature to the message.
-      const signature = "testestestesteste";
-      item.body.setSignatureAsync(signature, { coercionType: Office.CoercionType.Html }, (result) => {
-        if (result.status === Office.AsyncResultStatus.Failed) {
-          console.log(result.error.message);
-          event.completed();
-          return;
-        }
-});
 
-function onNewMessageComposeHandler(event) {
+    // for now, only allow Event Based Activation only in Office Online and not in Mac or Desktop
+    //var diagnostics = Office.context.diagnostics;
+    //if (diagnostics.platform !== 'OfficeOnline') {
+    //    return;
+    //}
+
     eformity.office.outlook.insertDefaultSignature(function (result) {
         result.completed();
     }, eventObj);
-}
+});
 
 
 // ==============================
